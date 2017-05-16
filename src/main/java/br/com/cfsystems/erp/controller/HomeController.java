@@ -9,6 +9,6 @@ public class HomeController {
 
 	@RequestMapping(value={"", "/"}, method={RequestMethod.GET})
 	public String index() {
-		return "sys/index";
+		return "sys/angular";
 	}
 }

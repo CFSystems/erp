@@ -2,17 +2,19 @@ package br.com.cfsystems.erp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.cfsystems.erp.models.Purchase;
+import br.com.cfsystems.erp.model.Purchase;
 import br.com.cfsystems.erp.service.ProductService;
 import br.com.cfsystems.erp.service.PurchaseService;
 
 @Controller
+@Transactional
 @RequestMapping("/purchase")
 public class PurchaseController {
 	
@@ -23,13 +25,13 @@ public class PurchaseController {
 
 	@RequestMapping(value={"", "/"}, method={RequestMethod.GET,RequestMethod.POST})
 	public String home(Model model) {
-		model.addAttribute("purchases", purchaseService.list());
+		model.addAttribute("purchases", purchaseService.findAll());
 		return "sys/purchase/index";
 	}
 
 	@RequestMapping(value={"/form"}, method={RequestMethod.GET,RequestMethod.POST})
 	public String form(Model model, Purchase Purchase) {
-		model.addAttribute("products", productService.list());
+		model.addAttribute("products", productService.findAll());
 		return "sys/purchase/form";
 	}
 

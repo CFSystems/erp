@@ -21,15 +21,22 @@
 	<c:otherwise>
 		<table class="table table-striped table-hover table-bordered">
 			<tr>
+				<td>ID</td>
 				<td>Nome</td>
 				<td>Documento</td>
 				<td>Telefone</td>
+				<td>E-mail</td>
+				<td></td>
 			</tr>
 			<c:forEach items="${consumers}" var="consumer">
 				<tr>
+					<td>${consumer.id}</td>
 					<td>${consumer.name}</td>
 					<td>${consumer.document}</td>
 					<td>${consumer.phoneNumber}</td>
+					<td>${consumer.email}</td>
+					<td><a href="<c:url value='consumer/edit-${consumer.id}'/>">Editar</a>
+					<a href="<c:url value='consumer/delete-${consumer.id}' />">Deletar</a></td>
 				</tr>
 			</c:forEach>
 		</table>

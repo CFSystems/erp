@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.cfsystems.erp.dao.PaymentMethodDAO;
-import br.com.cfsystems.erp.models.PaymentMethod;
+import br.com.cfsystems.erp.model.PaymentMethod;
+import br.com.cfsystems.erp.service.PaymentMethodService;
 
 @Controller
 @Transactional
@@ -18,11 +18,11 @@ import br.com.cfsystems.erp.models.PaymentMethod;
 public class PaymentMethodController {
 	
 	@Autowired
-	private PaymentMethodDAO dao;
+	private PaymentMethodService service;
 	
 	@RequestMapping(value={"", "/"}, method={RequestMethod.GET})
 	public String home(Model model){
-		model.addAttribute("paymentsMethod", dao.findAll());
+		model.addAttribute("paymentsMethod", service.findAll());
 		return "sys/paymentMethod/index";
 	}
 	
@@ -33,7 +33,7 @@ public class PaymentMethodController {
 
 	@RequestMapping(value={"/save"}, method = RequestMethod.POST)
 	public String save(PaymentMethod paymentMethod, RedirectAttributes redirectAttributes) {
-		dao.save(paymentMethod);
+		service.save(paymentMethod);
 		redirectAttributes.addAttribute("sucesso", "Forma de Pagamento cadastrada com sucesso.");
 		return "redirect:/paymentMethod";
 	}

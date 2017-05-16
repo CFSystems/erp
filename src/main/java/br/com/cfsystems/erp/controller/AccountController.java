@@ -1,16 +1,15 @@
 package br.com.cfsystems.erp.controller;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.cfsystems.erp.dao.AccountDAO;
-import br.com.cfsystems.erp.models.Account;
+import br.com.cfsystems.erp.model.Account;
+import br.com.cfsystems.erp.service.AccountService;
 
 @Controller
 @Transactional
@@ -18,11 +17,11 @@ import br.com.cfsystems.erp.models.Account;
 public class AccountController {
 	
 	@Autowired
-	private AccountDAO dao;
+	private AccountService service;
 	
 	@RequestMapping(value={"", "/"}, method={RequestMethod.GET})
 	public String home(Model model){
-		model.addAttribute("accounts", dao.findAll());
+		model.addAttribute("accounts", service.findAll());
 		return "sys/account/index";
 	}
 	
@@ -33,7 +32,7 @@ public class AccountController {
 
 	@RequestMapping(value={"/save"}, method = RequestMethod.POST)
 	public String save(Account account, RedirectAttributes redirectAttributes) {
-		dao.save(account);
+		service.save(account);
 		redirectAttributes.addAttribute("sucesso", "Conta cadastrada com sucesso.");
 		return "redirect:/account";
 	}

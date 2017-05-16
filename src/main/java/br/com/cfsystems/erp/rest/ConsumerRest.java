@@ -3,42 +3,45 @@ package br.com.cfsystems.erp.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.cfsystems.erp.dao.ConsumerDAO;
-import br.com.cfsystems.erp.models.Consumer;
+import br.com.cfsystems.erp.model.Consumer;
+import br.com.cfsystems.erp.service.ConsumerService;
 
 @RestController
+@RequestMapping("/rest/consumer")
 public class ConsumerRest {
 	
 	@Autowired
-	private ConsumerDAO dao; 
+	private ConsumerService service; 
 	
-	@RequestMapping(value = "/listConsumer/", method = RequestMethod.GET)
-    public ResponseEntity<List<Consumer>> listAllUsers() {
-        List<Consumer> consumers = (List<Consumer>) dao.findAll();
+	@RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Consumer>> listAll() {
+        List<Consumer> consumers = (List<Consumer>) service.findAll();
         if(consumers.isEmpty()){
             return new ResponseEntity<List<Consumer>>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Consumer>>(consumers, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "/createConsumer/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createConsumer(@RequestBody Consumer consumer, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating Consumer " + consumer.getName());
- 
-        dao.save(consumer);
- 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/consumer/{id}").buildAndExpand(consumer.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	@RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Consumer> save(@RequestBody Consumer consumer) {
+		service.save(consumer);
+        return new ResponseEntity<Consumer>(consumer, HttpStatus.OK);
     }
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Consumer> delete(@PathVariable("id") int id){
+		Consumer consumer = service.find(id);
+		System.out.println("Deletando cliente " + consumer.getName());
+		service.delete(id);
+		return new ResponseEntity<Consumer>(consumer, HttpStatus.OK);
+	}
 
 }

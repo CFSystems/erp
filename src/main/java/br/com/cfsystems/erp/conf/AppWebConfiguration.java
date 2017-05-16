@@ -51,7 +51,7 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter{
 	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource bundle = new ReloadableResourceBundleMessageSource();
-		bundle.setBasename("/WEB-INF/messages");
+		bundle.setBasename("classpath*:i18n/messages");
 		bundle.setDefaultEncoding("UTF-8");
 		bundle.setCacheSeconds(1);
 		return bundle;
@@ -69,6 +69,6 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter{
 	
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    	registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    	registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
     } 
 }
