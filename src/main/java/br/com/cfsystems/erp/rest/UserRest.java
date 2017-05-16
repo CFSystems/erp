@@ -15,13 +15,13 @@ import br.com.cfsystems.erp.model.User;
 import br.com.cfsystems.erp.service.UserService;
 
 @RestController
-@RequestMapping("/rest/user/")
+@RequestMapping("/rest/user")
 public class UserRest {
 	
 	@Autowired
 	private UserService service; 
 	
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAll() {
         List<User> users = (List<User>) service.findAll();
         if(users.isEmpty()){
@@ -30,14 +30,14 @@ public class UserRest {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> save(@RequestBody User user) {
         System.out.println("Criando usuário " + user.getName());
         service.save(user);
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 	
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<User> delete(@PathVariable("id") int id){
 		User user = service.find(id);
 		System.out.println("Deletando usuário " + user.getName());
