@@ -15,7 +15,7 @@ import br.com.cfsystems.erp.model.Purchase;
 import br.com.cfsystems.erp.service.PurchaseService;
 
 @RestController
-@RequestMapping("/rest/puchase/")
+@RequestMapping("/rest/purchase/")
 public class PurchaseRest {
 	
 	@Autowired
