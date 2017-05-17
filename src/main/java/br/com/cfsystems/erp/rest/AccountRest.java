@@ -15,13 +15,13 @@ import br.com.cfsystems.erp.model.Account;
 import br.com.cfsystems.erp.service.AccountService;
 
 @RestController
-@RequestMapping("/rest/account/")
+@RequestMapping("/rest/account")
 public class AccountRest {
 
 	@Autowired
 	private AccountService service; 
 	
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Account>> listAll() {
         List<Account> accounts = (List<Account>) service.findAll();
         if(accounts.isEmpty()){
@@ -30,14 +30,14 @@ public class AccountRest {
         return new ResponseEntity<List<Account>>(accounts, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Account> save(@RequestBody Account account) {
         System.out.println("Criando conta " + account.getId());
         service.save(account);
         return new ResponseEntity<Account>(account, HttpStatus.CREATED);
     }
 	
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Account> delete(@PathVariable("id") int id){
 		Account account = service.find(id);
 		System.out.println("Deletando conta " + account.getId());

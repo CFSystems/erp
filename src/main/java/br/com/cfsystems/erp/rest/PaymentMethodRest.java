@@ -15,13 +15,13 @@ import br.com.cfsystems.erp.model.PaymentMethod;
 import br.com.cfsystems.erp.service.PaymentMethodService;
 
 @RestController
-@RequestMapping("/rest/paymentmethod/")
+@RequestMapping("/rest/paymentMethod")
 public class PaymentMethodRest {
 	
 	@Autowired
 	private PaymentMethodService service; 
 	
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<PaymentMethod>> listAll() {
         List<PaymentMethod> paymentsMethod = (List<PaymentMethod>) service.findAll();
         if(paymentsMethod.isEmpty()){
@@ -30,14 +30,14 @@ public class PaymentMethodRest {
         return new ResponseEntity<List<PaymentMethod>>(paymentsMethod, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<PaymentMethod> save(@RequestBody PaymentMethod paymentMethod) {
         System.out.println("Criando forma de pagamento " + paymentMethod.getName());
         service.save(paymentMethod);
         return new ResponseEntity<PaymentMethod>(paymentMethod, HttpStatus.CREATED);
     }
 	
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<PaymentMethod> delete(@PathVariable("id") int id){
 		PaymentMethod paymentMethod = service.find(id);
 		System.out.println("Deletando forma de pagamento " + paymentMethod.getId());

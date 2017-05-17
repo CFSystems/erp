@@ -15,13 +15,13 @@ import br.com.cfsystems.erp.model.Payment;
 import br.com.cfsystems.erp.service.PaymentService;
 
 @RestController
-@RequestMapping("/rest/payment/")
+@RequestMapping("/rest/payment")
 public class PaymentRest {
 	
 	@Autowired
 	private PaymentService service; 
 	
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Payment>> listAll() {
         List<Payment> payments = (List<Payment>) service.findAll();
         if(payments.isEmpty()){
@@ -30,14 +30,14 @@ public class PaymentRest {
         return new ResponseEntity<List<Payment>>(payments, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Payment> save(@RequestBody Payment payment) {
         System.out.println("Criando pagamento " + payment.getId());
         service.save(payment);
         return new ResponseEntity<Payment>(payment, HttpStatus.CREATED);
     }
 	
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Payment> delete(@PathVariable("id") int id){
 		Payment payment = service.find(id);
 		System.out.println("Deletando pagamento " + payment.getId());
