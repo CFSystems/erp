@@ -2,9 +2,12 @@ package br.com.cfsystems.erp.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +33,17 @@ public class ConsumerRest {
         return new ResponseEntity<List<Consumer>>(consumers, HttpStatus.OK);
     }
 	
-	@RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Consumer> save(@RequestBody Consumer consumer) {
+	@RequestMapping(value={"/save"}, method = RequestMethod.POST)
+    public ResponseEntity<Consumer> save(@Valid @RequestBody Consumer consumer, BindingResult bindingResult) {
+		
+		/**
+		 * VALIDA AS ANOTACOES SOBRE OS ATRIBUTOS DA ENTITY
+		 * *** DAR PREFERENCIA PARA CLASSES DE VALIDACAO DO PACOTE javax.validation.*
+		 */
+		if (bindingResult.hasErrors()) {
+			//REDIRECIONAR MENSAGEM DE ERRO AO USUARIO.
+		}
+		
 		service.save(consumer);
         return new ResponseEntity<Consumer>(consumer, HttpStatus.OK);
     }
