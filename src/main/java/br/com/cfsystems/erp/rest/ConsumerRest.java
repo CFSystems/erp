@@ -30,13 +30,13 @@ public class ConsumerRest {
         return new ResponseEntity<List<Consumer>>(consumers, HttpStatus.OK);
     }
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value="/save", method = RequestMethod.POST)
     public ResponseEntity<Consumer> save(@RequestBody Consumer consumer) {
 		service.save(consumer);
         return new ResponseEntity<Consumer>(consumer, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Consumer> delete(@PathVariable("id") int id){
 		Consumer consumer = service.find(id);
 		System.out.println("Deletando cliente " + consumer.getName());

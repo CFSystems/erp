@@ -32,7 +32,7 @@ public class UserRest {
 	
 	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> save(@RequestBody User user) {
-        System.out.println("Criando usuário " + user.getName());
+        System.out.println("Criando usuário " + user.getPerson().getName());
         service.save(user);
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
@@ -40,7 +40,7 @@ public class UserRest {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<User> delete(@PathVariable("id") int id){
 		User user = service.find(id);
-		System.out.println("Deletando usuário " + user.getName());
+		System.out.println("Deletando usuário " + user.getPerson().getName());
 		service.delete(id);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}

@@ -15,13 +15,13 @@ import br.com.cfsystems.erp.model.Purchase;
 import br.com.cfsystems.erp.service.PurchaseService;
 
 @RestController
-@RequestMapping("/rest/purchase/")
+@RequestMapping("/rest/purchase")
 public class PurchaseRest {
 	
 	@Autowired
 	private PurchaseService service; 
 	
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Purchase>> listAll() {
         List<Purchase> purchases = (List<Purchase>) service.findAll();
         if(purchases.isEmpty()){
@@ -30,14 +30,14 @@ public class PurchaseRest {
         return new ResponseEntity<List<Purchase>>(purchases, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Purchase> save(@RequestBody Purchase purchase) {
         System.out.println("Criando pedido " + purchase.getId());
         service.save(purchase);
         return new ResponseEntity<Purchase>(purchase, HttpStatus.CREATED);
     }
 	
-	@RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Purchase> delete(@PathVariable("id") int id){
 		Purchase purchase = service.find(id);
 		System.out.println("Deletando pedido " + purchase.getId());
